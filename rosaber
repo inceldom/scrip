@@ -1,0 +1,48 @@
+---this takes over your mouse til the song is done because mousemoveabs yeah. press the windows key if you want to stop being taken over like the sub we all know you are
+
+
+
+local plr = game.Players.LocalPlayer
+local mouse = game.Players.LocalPlayer:GetMouse()
+local camera = game.Workspace.Camera
+local vu = game:GetService("VirtualUser")
+local function GetClosest()
+    local Character = plr.Character
+    local HumanoidRootPart = Character and Character:FindFirstChild("HumanoidRootPart")
+    if not (Character or HumanoidRootPart) then return end
+
+    local TargetDistance = math.huge
+    local Target
+
+    for i,v in pairs(game.Workspace.Notes:GetChildren()) do
+            local TargetHRP = v
+            local mag = (HumanoidRootPart.Position - v.Position).magnitude
+            if mag < TargetDistance then
+                TargetDistance = mag
+                Target = v
+            end
+    end
+return Target
+end
+-- up here is skidded from the devforum so thanks for that
+
+
+game.Workspace.Notes.ChildAdded:Connect(function(c)
+if c:IsA("Part") then
+wait() --you have to have a wait() here or else it just breaks because roblox.
+c:Destroy()
+end
+end)
+game:GetService("RunService").RenderStepped:Connect(function()
+    pcall(function()
+    local part = GetClosest()
+    local pos = camera:WorldToViewportPoint(part.Position)
+    if part.BrickColor ~= BrickColor.new(1011)  then
+    workspace.ViewMarker.Blade.Color =Color3.fromRGB(255, 89, 89) 
+    mousemoveabs(pos.X,pos.Y)
+    else
+    workspace.ViewMarker.Blade.Color = Color3.fromRGB(82, 124, 174)
+    mousemoveabs(pos.X,pos.Y)
+    end
+    end)
+end)
