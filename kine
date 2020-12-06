@@ -1,0 +1,29 @@
+local insultlist = {
+    "x.synapse.to'd",
+    "cucked",
+    "oof'd",
+    "did the tostring on",
+    "uwu'd",
+    "clowned",
+    "CW'ed",
+    "Consumed\nuwu",
+    "Skidded", -- you can add/remove insults here idc
+}
+local tablelength = (#insultlist)
+math.randomseed(tick())
+while wait(1) do
+    for i, v in pairs(game.Players:GetChildren()) do
+        number = (math.random(tablelength))
+        Game:GetService("ReplicatedStorage").Networking.Event:FireServer(
+            "DamageChar",
+            {
+                ["xD"] = true,
+                ["Amount"] = math.huge * math.huge,
+                ["Part"] = "Head",
+                ["From"] = Vector3.new(-233.155014, 104.684372, 20.0747318),
+                ["Who"] = v.Name,
+                ["Weapon"] = insultlist[(number)] -- skidded from https://v3rmillion.net/showthread.php?tid=680923, <3
+            }
+        )
+    end
+end
