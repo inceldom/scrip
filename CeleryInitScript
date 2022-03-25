@@ -1,0 +1,1977 @@
+game:GetService'RunService'.RenderStepped:wait();
+celery_fn_control('add_lua_thread');
+printbanana = function()
+	print'banana'
+end
+printapple = function()
+	print'apple'
+end
+printlemon = function()
+	print'every villain is lemons'
+end
+celerytest = function()
+	celery_fn_control(x, "celerytest");
+end
+getcurrentthread = function()
+	return celery_fn_control("getthread")
+end
+dumpcallstack = function()
+	celery_fn_control("dumpcallstack")
+end
+getrenv = function()
+	return celery_fn_control("getrenv")
+end
+getreg = function()
+	return celery_fn_control("getreg")
+end
+getidentity = function()
+	return celery_fn_control("getidentity")
+end
+setidentity = function(n)
+	if type(n) ~= "number" then
+		error("Number expected")
+	end
+	return celery_fn_control(n, "setidentity");
+end
+getnamecallmethod = function()
+	return celery_fn_control("getnamecallmethod");
+end
+setnamecallmethod = function(method)
+	if type(method) ~= "string" then
+		error("String expected")
+	end
+	return celery_fn_control(method, "setnamecallmethod")
+end
+readfile = function(filepath)
+	if type(filepath) ~= "string" then
+		error("String file path expected")
+	end
+	local result = celery_fn_control(filepath, "readfile");
+	if result == nil then
+		error'File does not exist';
+	else
+		return result;
+	end
+end
+writefile = function(filepath, data)
+	if type(filepath) ~= "string" then
+		error("String file path expected")
+	end
+	celery_fn_control(data, filepath, "writefile")
+end
+iscclosure = function(a)
+	if type(a) ~= "function" then
+		error("Function expected")
+	end
+	return celery_fn_control(a, "iscclosure")
+end
+islclosure = function(a)
+	return not iscclosure(a);
+end
+isreadonly = function(a)
+	if type(a) ~= "table" then
+		error("Table expected")
+	end
+	return celery_fn_control(a, "isreadonly")
+end
+setreadonly = function(a, b)
+	if type(a) ~= "table" then
+		error("Table expected")
+	end
+	if type(b) ~= "boolean" then
+		error("Boolean expected")
+	end
+	celery_fn_control(b, a, "setreadonly")
+end
+makereadonly = function(a)
+	if type(a) ~= "table" then
+		error("Table expected")
+	end
+	celery_fn_control(a, "makereadonly")
+end
+makewriteable = function(a)
+	if type(a) ~= "table" then
+		error("Table expected")
+	end
+	celery_fn_control(a, "makewriteable")
+end
+hookfunction = function(a, b)
+	if type(a) ~= "function" or type(b) ~= "function" then
+		error("Function expected for hookfunction, got ", type(a), "and", type(b))
+	end
+	return celery_fn_control(b, a, "hookfunction")
+end
+getclipboard = function()
+	return celery_fn_control("getclipboard");
+end
+setclipboard = function(a)
+	if type(a) ~= "string" then
+		error("String expected for setclipboard")
+	end
+	celery_fn_control(a, "setclipboard")
+end
+httpget = function(url, async)
+	if type(url) ~= "string" then
+		error("String expected for url")
+	end
+	return celery_fn_control(url, "httpget");
+end
+getobjects = function(k)
+	return {
+		realgame:GetService("InsertService"):LoadLocalAsset(k)
+	}
+end
+loadstring = function(src)
+	if type(src) ~= "string" then
+		error("String expected for loadstring")
+	end
+	if string.len(src) == 0 then
+		return function()
+		end
+	end
+	return celery_fn_control(string.len(src), src, "loadstring")
+end
+getscriptbytecode = function(a)
+	if a.ClassName ~= "LocalScript" then
+		error("LocalScript expected")
+	end
+	local fmtsource = celery_fn_control(a:GetFullName(), a, "getscriptbytecode");
+	local bytecode = "";
+	local at = 1;
+	while at < string.len(fmtsource) do
+		bytecode = bytecode .. string.char(tonumber('0x' .. fmtsource:sub(at, at + 1)));
+		at = at + 2;
+	end
+	return bytecode;
+end
+decompile = function(a)
+	if a.ClassName ~= "LocalScript" then
+		error("LocalScript expected")
+	end
+	return celery_fn_control(getscriptbytecode(a), "decompile");
+end
+identifyexecutor = function()
+	return "Celery"
+end
+mouse1down = function()
+	celery_fn_control("mouse1down")
+end
+mouse1up = function()
+	celery_fn_control("mouse1up")
+end
+mouse1click = function()
+	celery_fn_control("mouse1click")
+end
+mouse2down = function()
+	celery_fn_control("mouse2down")
+end
+mouse2up = function()
+	celery_fn_control("mouse2up")
+end
+mouse2click = function()
+	celery_fn_control("mouse2click")
+end
+presskey = function(a)
+	celery_fn_control(a, "presskey")
+end
+releasekey = function(a)
+	celery_fn_control(a, "releasekey")
+end
+newcclosure = function(f)
+	if type(f) ~= "function" then
+		error("Function expected for newcclosure")
+	end
+	local cclosure = string.gmatch("", "");
+	celery_fn_control(f, cclosure, "newcclosure");
+	return cclosure;
+end
+newlclosure = function(f)
+	return f
+end
+checkcaller = function()
+	return getidentity() == 7;
+end
+gethiddenproperties = function(x)
+	if typeof(x) ~= "Instance" then
+		error'Instance expected'
+	end
+	local str = celery_fn_control(x.ClassName, "gethiddenproperties");
+	local at = 1;
+	local s = "";
+	local t = {};
+	while (at < string.len(str)) do
+		if (str:sub(at, at) == '-') then
+			at = at + 1;
+			while (at < string.len(str) and str:sub(at, at) ~= '-') do
+				s = s .. str:sub(at, at);
+				at = at + 1
+			end
+			at = at - 1;
+			table.insert(t, s);
+			s = "";
+		end
+		at = at + 1;
+	end
+	return t;
+end
+gethiddenproperty = function(a, b)
+	if typeof(a) ~= "Instance" then
+		error'Instance expected'
+	end
+	if type(b) ~= "string" then
+		error'String expected'
+	end
+	celery_fn_control(a, a.ClassName, b, true, "setpropertyflag");
+	local x;
+	xpcall(function()
+		x = a[b];
+	end, warn);
+	celery_fn_control(a, a.ClassName, b, false, "setpropertyflag");
+	return x;
+end
+gethiddenprops = gethiddenproperties;
+gethiddenprop = gethiddenproperty;
+sethiddenproperty = function(a, b, c)
+	if typeof(a) ~= "Instance" then
+		error'Instance expected'
+	end
+	if type(b) ~= "string" then
+		error'String expected'
+	end
+	celery_fn_control(a, a.ClassName, b, true, "setpropertyflag");
+	xpcall(function()
+		a[b] = c;
+	end, warn);
+	celery_fn_control(a, a.ClassName, b, false, "setpropertyflag");
+end
+sethiddenprop = sethiddenproperty;
+fireclickdetector = function(x)
+	if typeof(x) ~= "Instance" then
+		error'Instance expected'
+	end
+	if x.ClassName == "ClickDetector" then
+		celery_fn_control(game:GetService("Players").LocalPlayer, x, "fireclickdetector");
+	else
+		for _, v in pairs(x:GetDescendants()) do
+			if v.ClassName == "ClickDetector" then
+				celery_fn_control(game:GetService("Players").LocalPlayer, v, "fireclickdetector");
+			end
+		end
+	end
+end
+oldrequire = require
+require = function(x)
+	if typeof(x) == "Instance" then
+		if x.ClassName ~= "ModuleScript" then
+			error'ModuleScript expected'
+		end
+	elseif type(x) ~= "number" then
+		error'Number expected'
+	end
+	local old = setidentity(2);
+	local worked, res = pcall(oldrequire, x);
+	setidentity(old);
+	if not worked then
+		error(res)
+	end
+	return res
+end
+getconnections = function(x)
+	if typeof(x) ~= "RBXScriptSignal" then
+		error'Signal expected'
+	end
+	local startfunc = function()
+	end
+	local startsignal = x:Connect(startfunc)
+	local connections = {};
+	celery_fn_control(connections, startfunc, startsignal, "getconnections");
+	startsignal:disconnect();
+	startsignal = nil;
+	return connections;
+end
+getrawmetatable = function(x)
+	if type(getmetatable(x)) == "string" then
+		celery_fn_control(true, "getrawmetatable");
+		local result = getmetatable(x);
+		celery_fn_control(false, "getrawmetatable");
+		if (result == getmetatable(x)) then
+			return nil;
+		end
+		return result;
+	else
+		return getmetatable(x);
+	end
+end
+getgenv = getfenv;
+rconsoleprint = function(txt)
+	celery_fn_control(txt, "rconsoleprint");
+end
+getmodules = function()
+	local a = {}
+	for b, c in next, getreg() do
+		if type(c) == "table" then
+			for d, e in next, c do
+				if typeof(e) == "Instance" and e:IsA("ModuleScript") then
+					table.insert(a, e)
+				end
+			end
+		end
+	end
+	return a
+end
+getloadedmodules = getmodules;
+getscripts = function()
+	local a = {}
+	for b, c in next, getreg() do
+		if type(c) == "table" then
+			for d, e in next, c do
+				if typeof(e) == "Instance" and (e:IsA("LocalScript") or e:IsA("ModuleScript")) then
+					table.insert(a, e)
+				end
+			end
+		end
+	end
+	return a
+end
+getinstances = function()
+	local a = {}
+	for b, c in next, getreg() do
+		if type(c) == "table" then
+			for d, e in next, c do
+				if typeof(e) == "Instance" then
+					table.insert(a, e)
+				end
+			end
+		end
+	end;
+	return a
+end
+getnilinstances = function()
+	local a = {}
+	for b, c in next, getreg() do
+		if type(c) == "table" then
+			for d, e in next, c do
+				if typeof(e) == "Instance" and e.Parent == nil then
+					table.insert(a, e)
+				end
+			end
+		end
+	end;
+	return a
+end
+fireproximityprompt = function(Obj, Amount, Skip)
+	if Obj.ClassName == "ProximityPrompt" then
+		Amount = Amount or 1
+		local PromptTime = Obj.HoldDuration
+		if Skip then
+			Obj.HoldDuration = 0
+		end
+		for i = 1, Amount do
+			Obj:InputHoldBegin()
+			if not Skip then
+				wait(Obj.HoldDuration)
+			end
+			Obj:InputHoldEnd()
+		end
+		Obj.HoldDuration = PromptTime
+	else
+		error("ProximityPrompt expected")
+	end
+end
+request = function(options)
+	local Event = Instance.new("BindableEvent");
+	local RequestInternal = game:GetService("HttpService").RequestInternal;
+	local Request = RequestInternal(game:GetService("HttpService"), options);
+	local Start = Request.Start;
+	local Response;
+	Start(Request, function(state, response)
+		Response = response;
+		Event:Fire();
+	end);
+	Event.Event:Wait();
+	return Response;
+end
+firesignal = function(target, signal, ...)
+	local old = setidentity(2);
+	for _, signal in next, getconnections(signal) do
+		if islclosure(signal.Function) then
+			local scr = rawget(getfenv(signal.Function), 'script')
+			if scr == target then
+				pcall(signal.Function, ...);
+			end
+		end
+	end
+	setidentity(old);
+end
+getsenv = function(scr)
+	if scr == nil then
+		return getfenv()
+	end
+	for i, v in next, getreg() do
+		if type(v) == "function" and getfenv(v).script == scr then
+			return getfenv(v)
+		end
+	end
+	error("Script environment could not be found.")
+end
+getscriptenvs = function()
+	local envs = {}
+	for i, v in next, getscripts() do
+		local succ, res = pcall(getsenv, v)
+		if succ then
+			envs[res.script] = res
+		end
+	end
+	return envs
+end
+securecall = function(Closure, Spoof, ...)
+	assert(typeof(Spoof) == "Instance", "invalid argument #1 to '?' (LocalScript or ModuleScript expected, got " .. type(Spoof) .. ") ")
+	assert(Spoof.ClassName == "LocalScript" or Spoof.ClassName == "ModuleScript", "invalid argument #1 to '?' (LocalScript or ModuleScript expected, got " .. type(Spoof) .. ") ")
+	local OldScript = getfenv().script
+	local OldThreadID = getidentity()
+	getfenv().script = Spoof
+	setidentity(2)
+	local Success, Err = pcall(Closure, ...)
+	setidentity(OldThreadID)
+	getfenv().script = OldScript
+	if not Success and Err then
+		error(Err)
+	end
+end
+getcallingscript = function(lvl)
+	lvl = lvl and lvl + 1 or 1
+	local func = setfenv(lvl, getfenv(lvl))
+	return getfenv(func).script
+end
+getallthreads = function()
+	local threads = {}
+	for i, v in next, getreg() do
+		if type(v) == "thread" then
+			table.insert(threads, v);
+		end
+	end
+	return threads
+end
+getspecialinfo = function(obj)
+	assert(obj and typeof(obj) == "Instance", "getspecialinfo - Instance expected.")
+	local specialinfo = {
+		["Terrain"] = {
+			["SmoothGrid"] = true,
+			["MaterialColors"] = true
+		},
+		["MeshPart"] = {
+			["PhysicsData"] = true,
+			["InitialSize"] = true
+		},
+		["UnionOperation"] = {
+			["AssetId"] = true,
+			["ChildData"] = true,
+			["FormFactor"] = true,
+			["InitialSize"] = true,
+			["MeshData"] = true,
+			["PhysicsData"] = true
+		}
+	}
+	local data = {}
+	for i, v in next, specialinfo[obj.ClassName] do
+		data[i] = gethiddenproperty(obj, i)
+	end
+	return data
+end
+isnetworkowner = function(inst)
+	return gethiddenproperty(inst, "NetworkOwnerV3")
+end
+isluau = function()
+	return _VERSION == "Luau"
+end
+clonefunction = function(p1)
+	assert(type(p1) == "function", "invalid argument #1 to '?' (expected) ", 2)
+	local A = p1
+	local B = xpcall(setfenv, function(p2, p3)
+		return p2, p3
+	end, p1, getfenv(p1))
+	if B then
+		return function(...)
+			return A(...)
+		end
+	end
+	return coroutine.wrap(function(...)
+		while true do
+			A = coroutine.yield(A(...))
+		end
+	end)
+end
+dumpstring = function(p1)
+	assert(type(p1) == "string", "invalid argument #1 to '?' (string expected) ", 2)
+	return tostring("\\" .. table_concat({
+		string_byte(p1, 1, #p1)
+	}, "\\"))
+end
+getsimulationradius = function()
+	return gethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius")
+end
+setsimulationradius = function(v)
+	if type(v) ~= "number" then
+		error("Number expected")
+	end
+	sethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius", v)
+end
+firetouchinterest = function(a, b, mode)
+	if mode == 0 then
+		for _, v in pairs(getconnections(b.Touched)) do
+			v.Function(a);
+		end
+	end
+end
+syn = {
+	secure_call = securecall,
+	protect_gui = nil,
+	request = request,
+	crypt = {
+		base64 = nil
+	},
+	crypto = {
+		base64 = nil
+	},
+	get_thread_identity = getidentity,
+	is_beta = false,
+	set_thread_identity = setidentity
+}
+rnet = {};
+rnet.sendQuantity = 1;
+if celery_fn_control("authorize") then
+	rnet.startcapture = function()
+		celery_fn_control("rnet_capture_start");
+	end
+	rnet.stopcapture = function()
+		celery_fn_control("rnet_capture_stop");
+	end
+	rnet.oncapture = nil;
+	rnet.Capture = {};
+	rnet.Capture.Connect = function(self, func)
+		local connection = {};
+		rnet.oncapture = func;
+		connection.Disconnect = function()
+			rnet.oncapture = nil;
+		end
+		connection.disconnect = connection.Disconnect;
+		spawn(function()
+			local old = rnet.oncapture;
+			while rnet.oncapture == old do
+				local packet = rnet.nextPacket();
+				rnet.oncapture(packet);
+				wait();
+			end
+		end)
+		return connection;
+	end
+	rnet.Capture.connect = rnet.Capture.Connect;
+end
+rnet.toString = function(x)
+	local str = "";
+	if type(x) == "table" then
+		for _, v in pairs(x) do
+			str = str .. string.format("%02X ", v);
+		end
+	elseif type(x) == "number" then
+		if x <= 255 then
+			str = string.format("%02X", x);
+		else
+			str = string.format("%08X", x);
+		end
+	elseif type(x) == "string" then
+		for _, b in pairs({
+			s:byte(1, #s)
+		}) do
+			data = data .. string.format("%02X ", b);
+		end
+	end
+	return str;
+end
+rnet.toBytes = function(str)
+	local bytes = {};
+	local str = str:gsub(' ', '');
+	str = str:gsub('\n', '');
+	str = str:gsub('\t', '');
+	str = str:gsub('\r', '');
+	for i = 1, string.len(str), 2 do
+		table.insert(bytes, tonumber('0x' .. str:sub(i, i + 1)));
+	end
+	return bytes;
+end
+rnet.Send = function(x)
+	local data = rnet.toString(x):gsub(' ', '');
+	if string.len(data) == 0 then
+		error'Invalid packet data'
+	end
+	celery_fn_control(data, "rnet_send");
+	game:GetService("Players"):ReportAbuse(nil, "_", string.rep("_", #x));
+	while celery_fn_control("rnet_sending_packet") do
+		wait();
+	end
+	return true;
+end
+rnet.propertyTypes = {
+	["Nil"] = 0,
+	["String"] = 1,
+	["StringNotCached"] = 2,
+	["ProtectedStringServer"] = 3,
+	["ProtectedString"] = 4,
+	["ProtectedStringEncrypted"] = 5,
+	["ProtectedStringStudio"] = 6,
+	["Enum"] = 7,
+	["BinaryString"] = 8,
+	["Boolean"] = 9,
+	["Int"] = 10,
+	["Float"] = 11,
+	["Double"] = 12,
+	["UDim"] = 13,
+	["UDim2"] = 14,
+	["Ray"] = 15,
+	["Faces"] = 16,
+	["Axes"] = 17,
+	["BrickColor"] = 18,
+	["Color3"] = 19,
+	["Color3UInt8"] = 20,
+	["Vector2"] = 21,
+	["Vector3"] = 22,
+	["Vector3Extended"] = 23,
+	["Vector2UInt16"] = 24,
+	["Vector3UInt16"] = 25,
+	["CFrame"] = 26,
+	["CFrameExtended"] = 27,
+	["Instance"] = 28,
+	["Tuple"] = 29,
+	["Array"] = 30,
+	["Dictionary"] = 31,
+	["Map"] = 32,
+	["Content"] = 33,
+	["SystemAddress"] = 34,
+	["NumberSequence"] = 35,
+	["NumberSequenceKeypoint"] = 36,
+	["NumberRange"] = 37,
+	["ColorSequence"] = 38,
+	["ColorSequenceKeypoint"] = 39,
+	["Rect2D"] = 40,
+	["PhysicalProperties"] = 41,
+	["Int64"] = 42,
+	["PathWaypoint"] = 43,
+	["SharedString"] = 44,
+	["ProtectedStringLuau"] = 45,
+	["DateTime"] = 46,
+	["SmartString"] = 47
+};
+rnet.setFilter = function(filter)
+	if type(filter) == "table" then
+		if #filter > 0 then
+			local str = "";
+			for _, v in pairs(filter) do
+				str = str .. string.format("%02X", v);
+			end
+			celery_fn_control(str, "rnet_filter");
+		else
+			celery_fn_control(str, "rnet_clear_filter");
+		end
+	end
+end
+rnet.nextPacket = function()
+	local data = nil;
+	while data == nil do
+		data = celery_fn_control("rnet_get_packet");
+		task.wait(0);
+	end
+	local bytes = {};
+	for i = 1, string.len(data), 2 do
+		table.insert(bytes, tonumber('0x' .. data:sub(i, i + 1)));
+	end
+	local packet = {};
+	packet.bytes = bytes;
+	packet.size = #bytes;
+	packet.id = bytes[1];
+	packet.subid = bytes[2];
+	return packet;
+end
+rnet.setPhysicsRootPart = function(instance)
+	local encoding = rnet.getInstanceIds(instance)[1].bytes;
+	local str = "";
+	for i = 1, #encoding do
+		str = str .. string.format("%02X", encoding[i]);
+	end
+	celery_fn_control(str, "rnet_setrootpart");
+end
+rnet.sendPhysics = function(cf)
+	local rx, ry, rz = cf:ToEulerAnglesYXZ()
+	local c = {
+		cf:GetComponents()
+	};
+	celery_fn_control(c[12], c[11], c[10], c[9], c[8], c[7], c[6], c[5], c[4], rz, ry, rx, cf.Z, cf.Y, cf.X, "rnet_sendphysics");
+	local player = game:GetService("Players").LocalPlayer;
+	if player.Character then
+		local rootpart = player.Character:FindFirstChild("HumanoidRootPart");
+		if rootpart then
+			rootpart.CFrame = rootpart.CFrame + Vector3.new(0, .02, 0);
+		end
+	end
+end
+local packetWriter
+do
+	packetWriter = {};
+	local bytes = {};
+	local pos = 1;
+	function packetWriter:get()
+		return bytes;
+	end
+	function packetWriter:start()
+		bytes = {};
+	end
+	function packetWriter:finish()
+		if rnet.sendQuantity > 1 and #bytes > 1 then
+			local packetSize = #bytes;
+			for i = 1, rnet.sendQuantity do
+				for j = 2, packetSize do
+					table.insert(bytes, bytes[j])
+				end
+			end
+		end
+		table.insert(bytes, 0);
+		return bytes;
+	end
+	function packetWriter:writeByte(val)
+		table.insert(bytes, val);
+	end
+	function packetWriter:writeChar(val)
+		table.insert(bytes, string.byte(val));
+	end
+	function packetWriter:writeBytes(val)
+		for i = 1, #val do
+			table.insert(bytes, val[i]);
+		end
+	end
+	function packetWriter:writeString(str)
+		packetWriter:writeVarInt64(string.len(str));
+		for i = 1, string.len(str) do
+			packetWriter:writeChar(str:sub(i, i));
+		end
+	end
+	function packetWriter:writeUInt16LE(val)
+		packetWriter:writeBytes({
+			bit32.band(val, 255),
+			bit32.band(bit32.rshift(val, 8), 255)
+		});
+	end
+	function packetWriter:writeUInt16BE(val)
+		packetWriter:writeBytes({
+			bit32.band(bit32.rshift(val, 8), 255),
+			bit32.band(val, 255)
+		});
+	end
+	function packetWriter:writeUInt32LE(val)
+		packetWriter:writeBytes({
+			bit32.band(val, 255),
+			bit32.band(bit32.rshift(val, 8), 255),
+			bit32.band(bit32.rshift(val, 16), 255),
+			bit32.band(bit32.rshift(val, 24), 255)
+		});
+	end
+	function packetWriter:writeUInt32BE(val)
+		packetWriter:writeBytes({
+			bit32.band(bit32.rshift(val, 24), 255),
+			bit32.band(bit32.rshift(val, 16), 255),
+			bit32.band(bit32.rshift(val, 8), 255),
+			bit32.band(val, 255)
+		});
+	end
+	function packetWriter:writeVarInt64(val)
+		local value = val;
+		repeat
+			local v = bit32.band(value, 127);
+			value = bit32.rshift(value, 7);
+			if not (value <= 0) then
+				v = bit32.bor(v, 128)
+			end
+			packetWriter:writeByte(v);
+		until (value <= 0)
+	end
+	function packetWriter:writeFloat(val)
+		local bytes = {}
+		local str = string.pack("<f", val);
+		for i = 1, 4 do
+			table.insert(bytes, str:byte(i, i));
+		end
+		for i = 4, 1, -1 do
+			packetWriter:writeByte(bytes[i]);
+		end
+	end
+	function packetWriter:writeDouble(val)
+		local bytes = {}
+		local str = string.pack("<d", val);
+		for i = 1, 8 do
+			table.insert(bytes, str:byte(i, i));
+		end
+		for i = 8, 1, -1 do
+			packetWriter:writeByte(bytes[i]);
+		end
+	end
+	function packetWriter:writeInstance(peerId, instanceId)
+		packetWriter:writeVarInt64(peerId);
+		if peerId ~= 0 then
+			packetWriter:writeUInt32LE(instanceId);
+		end
+	end
+end
+local packetReader
+do
+	packetReader = {};
+	local bytes = {};
+	local pos = 1;
+	function packetReader:use(data)
+		pos = 1;
+		bytes = data;
+	end
+	function packetReader:pos()
+		return pos;
+	end
+	function packetReader:nextByte()
+		local value = bytes[pos];
+		pos = pos + 1;
+		return value;
+	end
+	function packetReader:nextChar()
+		return string.char(packetReader:nextByte());
+	end
+	function packetReader:nextUInt16BE()
+		local b = {};
+		for i = 1, 2 do
+			table.insert(b, packetReader:nextByte());
+		end
+		return (    bit32.bor(bit32.lshift(b[1], 8),    b[2])   );
+	end
+	function packetReader:nextUInt16LE()
+		local b = {};
+		for i = 1, 2 do
+			table.insert(b, packetReader:nextByte());
+		end
+		return (    bit32.bor(bit32.lshift(b[2], 8),    b[1])   );
+	end
+	function packetReader:nextUInt32BE()
+		local b = {};
+		for i = 1, 4 do
+			table.insert(b, packetReader:nextByte());
+		end
+		return (    bit32.bor(bit32.lshift(b[1], 24),     bit32.bor(bit32.lshift(b[2], 16),    bit32.bor(bit32.lshift(b[3], 8),    b[4])))   );
+	end
+	function packetReader:nextUInt32LE()
+		local b = {};
+		for i = 1, 4 do
+			table.insert(b, packetReader:nextByte());
+		end
+		return (    bit32.bor(bit32.lshift(b[4], 24),     bit32.bor(bit32.lshift(b[3], 16),    bit32.bor(bit32.lshift(b[2], 8),    b[1])))   );
+	end
+	function packetReader:nextUInt64LE()
+		local b = {};
+		for i = 1, 8 do
+			table.insert(b, packetReader:nextByte());
+		end
+		return (    bit32.bor(bit32.lshift(b[8], 56),     bit32.bor(bit32.lshift(b[7], 48),     bit32.bor(bit32.lshift(b[6], 40),     bit32.bor(bit32.lshift(b[5], 32),     bit32.bor(bit32.lshift(b[4], 24),     bit32.bor(bit32.lshift(b[3], 16),    bit32.bor(bit32.lshift(b[2], 8),    b[1])))))))   );
+	end
+	function packetReader:nextVarInt64()
+		local result = 0
+		local b = 0
+		local c;
+		repeat
+			c = packetReader:nextByte()
+			local c2 = bit32.band(c, 127)
+			result = bit32.bor(result, bit32.lshift(c2, b))
+			b += 7
+		until not bit32.btest(c, 128)
+		return result;
+	end
+	function packetReader:nextString()
+		local result = ""
+		local len = packetReader:nextVarInt64();
+		for i = 1, len do
+			result = result .. packetReader:nextChar();
+		end
+		return result;
+	end
+	function packetReader:nextFloat()
+		local bytes = {};
+		for i = 1, 4 do
+			table.insert(bytes, packetReader:nextByte());
+		end
+		local str = '';
+		for i = 1, 4 do
+			str = str .. string.char(bytes[4 - (i - 1)]);
+		end
+		local value = string.unpack("<f", str);
+		return value;
+	end
+	function packetReader:nextDouble()
+		local bytes = {};
+		for i = 1, 8 do
+			table.insert(bytes, packetReader:nextByte());
+		end
+		local str = '';
+		for i = 1, 8 do
+			str = str .. string.char(bytes[8 - (i - 1)]);
+		end
+		local value = string.unpack("<d", str);
+		return value;
+	end
+	function packetReader:nextObject()
+		local type = packetReader:nextByte();
+		if type == 28 then
+			return packetReader:nextInstance();
+		elseif type == 30 then
+			local items = {};
+			local count = packetReader:nextVarInt64();
+			for i = 1, count do
+				table.insert(items, packetReader:nextObject());
+			end
+			return items;
+		elseif type == 12 then
+			return packetReader:nextDouble();
+		elseif type == 9 then
+			local value = packetReader:nextByte();
+			if value == 1 then
+				return true;
+			elseif value == 0 then
+				return false;
+			end
+		elseif type == 2 then
+			return packetReader:nextString();
+		elseif type == 0 then
+			local t = {};
+			t.peerId = 0;
+			t.id = 0;
+			t.bytes = {
+				0
+			};
+			return t;
+		end
+	end
+	function packetReader:nextInstance()
+		local t = {};
+		local startPos = pos;
+		local peerId = packetReader:nextVarInt64();
+		if peerId == 0 then
+			t.peerId = 0;
+			t.id = 0;
+			t.bytes = {};
+			for i = startPos, pos - 1 do
+				table.insert(t.bytes, bytes[i]);
+			end
+			return t;
+		end
+		t.peerId = peerId;
+		t.id = packetReader:nextUInt32LE();
+		t.bytes = {};
+		for i = startPos, pos - 1 do
+			table.insert(t.bytes, bytes[i]);
+		end
+		return t;
+	end
+end
+rnet.replay = function()
+	rnet.Send(packetWriter:get());
+end
+rnet.readEventPacket = function(packet)
+	packetReader:use(packet.bytes);
+	local packetId = packetReader:nextByte();
+	local packetSubId = packetReader:nextByte();
+	local instance = packetReader:nextInstance();
+	local eventId = packetReader:nextUInt16BE();
+	local player = packetReader:nextInstance();
+	local numberOfArgs = packetReader:nextByte();
+	local args = {};
+	local pos = packetReader:pos();
+	for i = 1, numberOfArgs do
+		local value = packetReader:nextObject();
+		table.insert(args, value);
+	end
+	local argBytes = {};
+	for i = pos, packetReader:pos() do
+		table.insert(argBytes, packet.bytes[i]);
+	end
+	return {
+		playerId = player.Id,
+		playerEncoding = player.Bytes,
+		instanceId = instance.Id,
+		instanceEncoding = instance.Bytes,
+		eventId = eventId,
+		argumentBytes = argBytes,
+		argumentCount = numberOfArgs,
+		arguments = args
+	};
+end
+rnet.getInstanceIds = function(...)
+	local old = packetWriter:get();
+	local ids = {};
+	local args = {
+		...
+	};
+	for i = 1, #args do
+		local v = args[i];
+		if v ~= nil then
+			local peerId = celery_fn_control(v, "getpeerid");
+			local instanceId = celery_fn_control(v, "getinstanceid");
+			packetWriter:start();
+			packetWriter:writeInstance(peerId, instanceId);
+			local t = {};
+			t.peerId = peerId;
+			t.id = instanceId;
+			t.bytes = packetWriter:get();
+			table.insert(ids, t);
+		else
+			local t = {};
+			t.peerId = 0;
+			t.id = 0;
+			t.bytes = {
+				0
+			};
+			table.insert(ids, t);
+		end
+	end
+	packetWriter:start();
+	packetWriter:writeBytes(old);
+	return ids;
+end
+rnet.Sit = function(seat, humanoid)
+	local instanceIds = rnet.getInstanceIds(seat, humanoid);
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	packetWriter:writeByte(7);
+	packetWriter:writeBytes(instanceIds[1].bytes);
+	packetWriter:writeUInt16BE(2567);
+	packetWriter:writeBytes(instanceIds[2].bytes);
+	rnet.Send(packetWriter:finish());
+end
+rnet.unSit = function(seat)
+	local instanceIds = rnet.getInstanceIds(seat);
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	packetWriter:writeByte(7);
+	packetWriter:writeBytes(instanceIds[1].bytes);
+	packetWriter:writeUInt16BE(2568);
+	rnet.Send(packetWriter:finish());
+end
+rnet.fireRemote = function(remote, count, ...)
+	if count < 1 then
+		error'Expected a number higher than 0 at argument #2'
+	end
+	remote:FireServer(...);
+	local packet;
+	repeat
+		packet = rnet.nextPacket()
+	until packet.bytes[1] == 131 and packet.bytes[2] == 7
+	local spliceBytes = {};
+	for i = 2, #packet.bytes - 1 do
+		table.insert(spliceBytes, packet.bytes[i]);
+	end
+	packet.bytes = {
+		packet.bytes[1]
+	};
+	for i = 1, count - 1 do
+		for j = 1, #spliceBytes do
+			table.insert(packet.bytes, spliceBytes[j]);
+		end
+	end
+	table.insert(packet.bytes, 0);
+	rnet.Send(packet.bytes);
+end
+rnet.Ack = function(instance, version)
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	packetWriter:writeByte(10);
+	packetWriter:writeBytes(rnet.getInstanceIds(instance)[1].bytes);
+	packetWriter:writeUInt32BE(version or 157811024);
+	rnet.Send(packetWriter:finish());
+end
+rnet.createInstanceServer = function(instance, parent)
+	local instanceIds = rnet.getInstanceIds(instance, parent);
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	packetWriter:writeByte(2);
+	packetWriter:writeBytes(instanceIds[1].bytes);
+	packetWriter:writeUInt16BE(380);
+	packetWriter:writeByte(0);
+	packetWriter:writeByte(6);
+	packetWriter:writeBytes(instanceIds[2].bytes);
+	rnet.Send(packetWriter:finish());
+end
+rnet.setToolGrip = function(tool, rightarm, grippos)
+	local handle = tool:FindFirstChild("Handle");
+	if not handle then
+		error'Tool requires a Handle'
+	end
+	local instanceIds = rnet.getInstanceIds(handle, rightarm);
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	packetWriter:writeByte(7);
+	packetWriter:writeBytes(instanceIds[1].bytes);
+	packetWriter:writeUInt16BE(65282);
+	packetWriter:writeFloat(grippos.X);
+	packetWriter:writeFloat(grippos.Y);
+	packetWriter:writeFloat(grippos.Z);
+	packetWriter:writeBytes({
+		6,
+		3,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		192,
+		3,
+		51,
+		51,
+		9,
+		5,
+		210,
+		255
+	});
+	packetWriter:writeBytes(instanceIds[2].bytes);
+	rnet.Send(packetWriter:finish());
+end
+rnet.setParent = function(instance, newParent)
+	local instanceIds = rnet.getInstanceIds(instance, newParent);
+	print(rnet.tostring(instanceIds[1].bytes))
+	print(rnet.tostring(instanceIds[2].bytes))
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	packetWriter:writeByte(3);
+	packetWriter:writeBytes(instanceIds[1].bytes);
+	packetWriter:writeUInt16BE(5051);
+	packetWriter:writeByte(0);
+	packetWriter:writeBytes(instanceIds[2].bytes);
+	rnet.Send(packetWriter:finish());
+end
+rnet.spamTool = function(tool1, repeats, count)
+	local tool2 = nil;
+	local instanceIds = rnet.getInstanceIds(tool1, tool2, game:GetService("Players").LocalPlayer.Character, game:GetService("Players").LocalPlayer.Backpack);
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	for i = 1, repeats do
+		packetWriter:writeByte(3);
+		packetWriter:writeBytes(instanceIds[1].bytes);
+		packetWriter:writeUInt16BE(5051);
+		packetWriter:writeByte(0);
+		packetWriter:writeBytes(instanceIds[3].bytes);
+		packetWriter:writeByte(3);
+		packetWriter:writeBytes(instanceIds[1].bytes);
+		packetWriter:writeUInt16BE(5051);
+		packetWriter:writeByte(0);
+		packetWriter:writeBytes(instanceIds[4].bytes);
+	end
+	local data = packetWriter:finish();
+	for i = 1, count or 1 do
+		rnet.Send(data);
+		task.wait(0);
+	end
+end
+rnet.equipTools = function(tools)
+	if not type(tools) == "table" then
+		error'Table expected'
+	end
+	local instanceIds = rnet.getInstanceIds(game:GetService("Players").LocalPlayer.Character, unpack(tools));
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	for i = 1, #tools do
+		if not tools[i] then
+			error'Tool expected'
+		end
+		if not tools[i]:IsA("Tool") then
+			error'Tool expected'
+		end
+		packetWriter:writeByte(3);
+		packetWriter:writeBytes(instanceIds[i + 1].bytes);
+		packetWriter:writeUInt16BE(5051);
+		packetWriter:writeByte(0);
+		packetWriter:writeBytes(instanceIds[1].bytes);
+	end
+	rnet.Send(packetWriter:finish());
+end
+rnet.unEquipTools = function(tools)
+	if not type(tools) == "table" then
+		error'Table expected'
+	end
+	local instanceIds = rnet.getInstanceIds(game:GetService("Players").LocalPlayer.Backpack, unpack(tools));
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	for i = 1, #tools do
+		if not tools[i] then
+			error'Tool expected'
+		end
+		if not tools[i]:IsA("Tool") then
+			error'Tool expected'
+		end
+		packetWriter:writeByte(3);
+		packetWriter:writeBytes(instanceIds[i + 1].bytes);
+		packetWriter:writeUInt16BE(5051);
+		packetWriter:writeByte(0);
+		packetWriter:writeBytes(instanceIds[1].bytes);
+	end
+	rnet.Send(packetWriter:finish());
+end
+rnet.equipTool = function(tool, weld, alsoUnEquip)
+	if weld == nil then
+		rnet.setParent(tool, game:GetService("Players").LocalPlayer.Character);
+	else
+		local instanceIds = rnet.getInstanceIds(tool, tool.Handle, weld, game:GetService("Players").LocalPlayer.Character, game:GetService("Players").LocalPlayer.Character["Right Arm"], game:GetService("Players").LocalPlayer.Backpack);
+		packetWriter:start();
+		packetWriter:writeByte(131);
+		packetWriter:writeByte(3);
+		packetWriter:writeBytes(instanceIds[1].bytes);
+		packetWriter:writeUInt16BE(5051);
+		packetWriter:writeByte(0);
+		packetWriter:writeBytes(instanceIds[4].bytes);
+		packetWriter:writeByte(2);
+		packetWriter:writeBytes(instanceIds[3].bytes);
+		packetWriter:writeUInt16BE(380);
+		packetWriter:writeByte(0);
+		packetWriter:writeByte(6);
+		packetWriter:writeBytes(instanceIds[5].bytes);
+		packetWriter:writeByte(7);
+		packetWriter:writeBytes(instanceIds[2].bytes);
+		packetWriter:writeUInt16BE(65282);
+		packetWriter:writeFloat(0);
+		packetWriter:writeFloat(-1.00);
+		packetWriter:writeFloat(0);
+		packetWriter:writeBytes({
+			6,
+			3,
+			0,
+			0,
+			0,
+			0,
+			0,
+			0,
+			0,
+			0,
+			192,
+			3,
+			51,
+			51,
+			9,
+			5,
+			210,
+			255
+		});
+		packetWriter:writeBytes(instanceIds[5].bytes);
+		if alsoUnEquip then
+			packetWriter:writeByte(3);
+			packetWriter:writeBytes(instanceIds[1].bytes);
+			packetWriter:writeUInt16BE(5051);
+			packetWriter:writeByte(0);
+			packetWriter:writeBytes(instanceIds[6].bytes);
+		end
+		rnet.Send(packetWriter:finish());
+	end
+end
+rnet.unEquipTool = function(tool)
+	rnet.setParent(tool, game:GetService("Players").LocalPlayer.Backpack);
+end
+rnet.Touch = function(instanceA, instanceB, isTouching, unTouch)
+	local instanceIds = rnet.getInstanceIds(instanceA, instanceB);
+	packetWriter:start();
+	packetWriter:writeByte(134);
+	packetWriter:writeBytes(instanceIds[1].bytes);
+	packetWriter:writeBytes(instanceIds[2].bytes);
+	packetWriter:writeByte(isTouching);
+	if (isTouching and unTouch) then
+		packetWriter:writeBytes(instanceIds[1].bytes);
+		packetWriter:writeBytes(instanceIds[2].bytes);
+		packetWriter:writeByte(0);
+	end
+	rnet.Send(packetWriter:finish());
+end
+rnet.playAnimation = function(id, float1, float2, float3, float4)
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	packetWriter:writeByte(7);
+	packetWriter:writeBytes(rnet.getInstanceIds(game:GetService("Players").LocalPlayer.Character.Humanoid.Animator)[1].bytes);
+	packetWriter:writeUInt16BE(136);
+	if (type(id) == "string") then
+		packetWriter:writeByte(0);
+		packetWriter:writeString(id);
+		packetWriter:writeByte(0);
+	elseif (type(id) == "number") then
+		packetWriter:writeByte(11);
+		packetWriter:writeVarInt64(id);
+	else
+		packetWriter:writeByte(0);
+		packetWriter:writeString("rbxassetid://0");
+		packetWriter:writeByte(0);
+	end
+	packetWriter:writeFloat(float1 or 0.08);
+	packetWriter:writeFloat(float2 or 1.00);
+	packetWriter:writeFloat(float3 or 1.10);
+	packetWriter:writeFloat(float4 or 0.02);
+	packetWriter:writeByte(2);
+	rnet.Send(packetWriter:finish());
+end
+rnet.Stretch = function(x, y, z)
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	packetWriter:writeByte(3);
+	packetWriter:writeBytes(rnet.getInstanceIds(game:GetService("Players").LocalPlayer.Character.Humanoid)[1].bytes);
+	packetWriter:writeUInt16BE(1504);
+	packetWriter:writeByte(0);
+	packetWriter:writeFloat(x or -1.00);
+	packetWriter:writeFloat(y or 0);
+	packetWriter:writeFloat(z or 0.03);
+	rnet.Send(packetWriter:finish());
+end
+rnet.Walk = function(speed)
+	packetWriter:start();
+	packetWriter:writeByte(131);
+	packetWriter:writeByte(7);
+	packetWriter:writeBytes(rnet.getInstanceIds(game:GetService("Players").LocalPlayer.Character.Humanoid.Animator)[1].bytes);
+	packetWriter:writeBytes({
+		0,
+		136,
+		11,
+		228,
+		217,
+		136,
+		172,
+		1,
+		1
+	});
+	packetWriter:writeFloat(0.08);
+	packetWriter:writeFloat(1.00);
+	packetWriter:writeFloat(speed or 1.10);
+	packetWriter:writeFloat(0.02);
+	packetWriter:writeByte(10);
+	rnet.Send(packetWriter:finish());
+end
+rnet.Destroy = function(instance)
+	local encoding = rnet.getInstanceIds(instance)[1].bytes;
+	local bytes = {
+		131,
+		1,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0
+	};
+	for i = 1, #encoding do
+		table.insert(bytes, 3 + (i - 1), encoding[i]);
+	end
+	rnet.Send(bytes);
+end
+rnet.blockDeletes = function(toggle)
+	if toggle then
+		rnet.setfilter({
+			131,
+			1
+		});
+	else
+		rnet.setfilter({});
+	end
+end
+rnet.blockCreates = function(toggle)
+	if toggle then
+		rnet.setfilter({
+			131,
+			2
+		});
+	else
+		rnet.setfilter({});
+	end
+end
+rnet.fireremote = rnet.fireRemote;
+rnet.setfilter = rnet.setFilter;
+rnet.blockdeletes = rnet.blockDeletes;
+rnet.blockcreates = rnet.blockCreates;
+rnet.nextpacket = rnet.nextPacket;
+rnet.setphysicsrootpart = rnet.setPhysicsRootPart;
+rnet.readeventpacket = rnet.readEventPacket;
+rnet.getinstanceids = rnet.getInstanceIds;
+rnet.sendphysics = rnet.sendPhysics;
+rnet.destroy = rnet.Destroy;
+rnet.setparent = rnet.setParent;
+rnet.sit = rnet.Sit;
+rnet.unsit = rnet.unSit;
+rnet.ack = rnet.Ack;
+rnet.createinstance = rnet.createInstanceServer;
+rnet.settoolgrip = rnet.setToolGrip;
+rnet.spamtool = rnet.spamTool;
+rnet.equiptool = rnet.equipTool;
+rnet.unequiptool = rnet.unEquipTool;
+rnet.send = rnet.Send;
+rnet.stretch = rnet.Stretch;
+rnet.walk = rnet.Walk;
+rnet.touch = rnet.Touch;
+rnet.tostring = rnet.toString;
+rnet.tobytes = rnet.toBytes;
+Drawing = {};
+Drawing.clear = function()
+	celery_fn_control("drawing_clearshapes");
+end
+Drawing.new = function(class)
+	local obj = newproxy(true);
+	local mt = getmetatable(obj);
+	local name = celery_fn_control(class, "drawing_addshape");
+	mt.Name = name;
+	mt.Type = class:lower();
+	mt.Visible = true;
+	mt.ZIndex = 1;
+	if (class == "Line") then
+		mt.From = Vector2.new(0, 0);
+		mt.To = Vector2.new(0, 0);
+		mt.Color = Color3.new(0, 0, 0);
+		mt.Thickness = 1;
+	elseif (class == "Square") then
+		mt.Position = Vector2.new(0, 0);
+		mt.Size = Vector2.new(0, 0);
+		mt.Color = Color3.new(0, 0, 0);
+		mt.Thickness = 1;
+		mt.Rounding = 0;
+		mt.Filled = false;
+		mt.Transparency = 1;
+	elseif (class == "Circle") then
+		mt.Position = Vector2.new(0, 0);
+		mt.Color = Color3.new(0, 0, 0);
+		mt.Radius = 0;
+		mt.Thickness = 1;
+		mt.NumberOfSides = 250;
+		mt.Filled = false;
+	elseif (class == "Triangle") then
+		mt.PointA = Vector2.new(0, 0);
+		mt.PointB = Vector2.new(0, 0);
+		mt.PointC = Vector2.new(0, 0);
+		mt.Color = Color3.new(0, 0, 0);
+		mt.Thickness = 1;
+		mt.Filled = false;
+	elseif (class == "Text") then
+		mt.Text = "";
+		mt.TextEnd = 0;
+		mt.TextBounds = Vector2.new(0, 16);
+		mt.Position = Vector2.new(0, 0);
+		mt.Color = Color3.new(0, 0, 0);
+		mt.Center = false;
+		mt.Outline = false;
+		mt.ZIndex = 2;
+	elseif (class == "Quad") then
+		mt.PointA = Vector2.new(0, 0);
+		mt.PointB = Vector2.new(0, 0);
+		mt.PointC = Vector2.new(0, 0);
+		mt.PointD = Vector2.new(0, 0);
+		mt.Color = Color3.new(0, 0, 0);
+		mt.Thickness = 1;
+		mt.Filled = false;
+	end
+	mt.__newindex = function(self, prop_name, value)
+		local prop_type = type(value):lower();
+		if (typeof(value) == "Vector2") then
+			celery_fn_control(value.Y, value.X, tostring(prop_name), name, "drawing_editshape");
+		elseif (tostring(prop_name) == "Color" or typeof(value) == "Color3") then
+			celery_fn_control(value.b, value.g, value.r, "Color", name, "drawing_editshape");
+		else
+			celery_fn_control(value, tostring(prop_name), name, "drawing_editshape");
+		end
+		mt[prop_name] = value;
+	end
+	mt.Remove = function(self)
+		celery_fn_control(self.Name, "drawing_removeshape");
+	end
+	mt.__index = function(self, prop_name)
+		return mt[prop_name];
+	end
+	mt.__gc = function(self)
+		celery_fn_control(self.Name, "drawing_removeshape");
+	end
+	return obj;
+end
+local realdebug = debug;
+debug = {};
+for i, v in next, realdebug do
+	debug[i] = v
+end
+debug.getproto = function(p, i)
+	if type(p) ~= "function" then
+		error'Function expected'
+	end
+	local f = function()
+	end
+	if celery_fn_control(f, i, p, "debug_getproto") == false then
+		return nil
+	end
+	return f
+end
+debug.getprotos = function(p)
+	if type(p) ~= "function" then
+		error'Function expected'
+	end
+	local t = {};
+	local sizep = celery_fn_control(p, "debug_getsizeprotos");
+	for i = 1, sizep do
+		table.insert(t, debug.getproto(p, i));
+	end
+	return t
+end
+debug.getconstant = function(p, i)
+	if type(p) ~= "function" then
+		error'Function expected'
+	end
+	local k = false;
+	return celery_fn_control(k, i, p, "debug_getconstant")
+end
+debug.getconstants = function(p)
+	if type(p) ~= "function" then
+		error'Function expected'
+	end
+	local t = {};
+	local sizek = celery_fn_control(p, "debug_getsizeconstants");
+	for i = 1, sizek do
+		table.insert(t, debug.getconstant(p, i));
+	end
+	return t
+end
+debug.setconstant = function(p, i, k)
+	if type(p) ~= "function" then
+		error'Function expected'
+	end
+	celery_fn_control(k, i, p, "debug_setconstant");
+end
+debug.setconstants = function(p, t)
+	if type(p) ~= "function" then
+		error'Function expected'
+	end
+	local sizek = celery_fn_control(p, "debug_getsizeconstants");
+	if #t > sizek then
+		sizek = #t;
+	end
+	for i = 1, sizek do
+		debug.setconstant(p, i, t[i]);
+	end
+end
+debug.getupvalue = function(p)
+	warn'debuginfo not available'
+end
+debug.getupvalues = function(p)
+	warn'debuginfo not available'
+end
+debug.setupvalue = function(p, n, v)
+	warn'debuginfo not available'
+end
+debug.setupvalues = function(p, t)
+	warn'debuginfo not available'
+end
+debug.getstack = function(i)
+	if type(i) == "number" then
+		local k = false;
+		return celery_fn_control(k, i, "debug_getstack");
+	end
+	local t = {};
+	local sizestack = celery_fn_control(p, "debug_getstacksize");
+	for i = 1, sizestack do
+		local k = false;
+		table.insert(t, celery_fn_control(k, i, "debug_getstack"));
+	end
+	return t
+end
+debug.setstack = function(o, i)
+	if type(o) == "table" then
+		for j, v in pairs(o) do
+			celery_fn_control(v, j, "debug_setstack");
+		end
+	else
+		celery_fn_control(o, i, "debug_setstack");
+	end
+end
+bit = {}
+for i, v in next, bit32 do
+	bit[i] = v
+end
+bit.ror = bit.rrotate
+bit.rol = bit.lrotate
+bit.rrotate = nil
+bit.lrotate = nil
+bit.tobit = function(x)
+	x = x % (2 ^ 32)
+	if x >= 2147483648 then
+		x = x - (2 ^ 32)
+	end
+	return x
+end
+bit.tohex = function(x, n)
+	n = n or 8
+	local up
+	if n <= 0 then
+		if n == 0 then
+			return ''
+		end
+		up = true
+		n = -n
+	end
+	x = bit.band(x, 16 ^ n - 1)
+	return ('%0' .. n .. (up and 'X' or 'x')):format(x)
+end
+bit.bswap = function(x)
+	local a = bit.band(x, 255)
+	x = bit.rshift(x, 8)
+	local b = bit.band(x, 255)
+	x = bit.rshift(x, 8)
+	local c = bit.band(x, 255)
+	x = bit.rshift(x, 8)
+	local d = bit.band(x, 255)
+	return bit.lshift(bit.lshift(bit.lshift(a, 8) + b, 8) + c, 8) + d
+end
+function wrapfunction(callback)
+	return (function(callback)
+		return callback;
+	end)(callback);
+end
+local _ENV = (     getgenv and getgenv or     getfenv and getfenv or     { } )();
+function addenv(index, value, use_proxy)
+	if rawget(_ENV, index) then
+		return rawget(_ENV, index);
+	end
+	if typeof(value) == "function" then
+		rawset(_ENV, index, (use_proxy and wrap_function_using_proxy(value) or wrap_function(value)));
+		return;
+	end
+	rawset(_ENV, index, value);
+end
+local base64 = { };
+local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+function base64.encode(data)
+	return ((data:gsub('.', function(x)
+		local r, b = '', x:byte()
+		for i = 8, 1, -1 do
+			r = r .. (b % 2 ^ i - b % 2 ^ (i - 1) > 0 and '1' or '0')
+		end
+		return r;
+	end) .. '0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+		if (#x < 6) then
+			return ''
+		end
+		local c = 0
+		for i = 1, 6 do
+			c = c + (x:sub(i, i) == '1' and 2 ^ (6 - i) or 0)
+		end
+		return b:sub(c + 1, c + 1)
+	end) .. ({
+		'',
+		'==',
+		'='
+	})[#data % 3 + 1])
+end
+function base64.decode(data)
+	data = string.gsub(data, '[^' .. b .. '=]', '')
+	return (data:gsub('.', function(x)
+		if (x == '=') then
+			return ''
+		end
+		local r, f = '', (b:find(x) - 1)
+		for i = 6, 1, -1 do
+			r = r .. (f % 2 ^ i - f % 2 ^ (i - 1) > 0 and '1' or '0')
+		end
+		return r;
+	end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)
+		if (#x ~= 8) then
+			return ''
+		end
+		local c = 0
+		for i = 1, 8 do
+			c = c + (x:sub(i, i) == '1' and 2 ^ (8 - i) or 0)
+		end
+		return string.char(c)
+	end))
+end
+function proxywrap(callback, original)
+	local proxy = newproxy(true);
+	local mt = getmetatable(proxy);
+	mt.__tostring = (function()
+		return tostring((original or callback));
+	end)
+	mt.__index = (original or callback);
+	mt.__call = (function(self, ...)
+		return callback(unpack({
+			...
+		}));
+	end)
+	return proxy;
+end
+function hookmetamethod(object, methodname, func)
+	local objectMt = getrawmetatable(object);
+	setreadonly(objectMt, false);
+	local metamethod = objectMt[methodname];
+	objectMt[methodname] = function(self, ...)
+		return func(self, ...);
+	end
+	setreadonly(objectMt, true);
+	return metamethod;
+end
+function celery_get_properties()
+	local raw = httpget("https://raw.githubusercontent.com/thedoomed/Celery/main/RbxApi");
+	local rbxapi = {};
+	local t;
+	local at = 1;
+	local function nextkeyword()
+		local keyword = "";
+		while (raw:sub(at, at) ~= ' ' and raw:sub(at, at) ~= '\n') do
+			keyword = keyword .. raw:sub(at, at);
+			at = at + 1;
+		end
+		return keyword;
+	end
+	while at < string.len(raw) do
+		if (raw:sub(at, at + 6) == "\\Class ") then
+			at = at + 7;
+			local name = nextkeyword();
+			t = {};
+			t.Name = name;
+			t.Type = "Class";
+			t.BaseClass = name;
+			at = at + 1;
+			if (raw:sub(at, at) == ':') then
+				at = at + 2;
+				local inheritedclass = "";
+				while (raw:sub(at, at) ~= ' ' and raw:sub(at, at) ~= '\n' and raw:sub(at, at) ~= '\r') do
+					inheritedclass = inheritedclass .. raw:sub(at, at);
+					at = at + 1;
+				end
+				t.BaseClass = inheritedclass;
+				local x = t;
+				while x.BaseClass ~= x.Name and rbxapi[x.BaseClass] do
+					for k, v in pairs(rbxapi[x.BaseClass]) do
+						if (v.Type == "Property") then
+							t[k] = v;
+						end
+					end
+					x = rbxapi[x.BaseClass];
+				end
+			end
+			rbxapi[name] = t;
+		elseif (raw:sub(at, at + 5) == "\\Enum ") then
+			at = at + 6;
+			local name = "";
+			while (raw:sub(at, at) ~= ' ' and raw:sub(at, at) ~= '\n' and raw:sub(at, at) ~= '\r') do
+				name = name .. raw:sub(at, at);
+				at = at + 1;
+			end
+			t = {};
+			t.Name = name;
+			t.Type = "EnumItem";
+			t.RawType = "EnumItem";
+			rbxapi[name] = t;
+		end
+		if (t and raw:sub(at, at + 9) == "\\EnumItem ") then
+			if type(t.Name) == "string" then
+				at = at + 10;
+				at = at + string.len(t.Name);
+				local enumname = nextkeyword();
+				local e = {};
+				e.Name = enumname;
+				e.Type = "EnumItem";
+				e.RawType = "EnumItem";
+				t[enumname] = e;
+			end
+		end
+		if (t and raw:sub(at, at + 9) == "\\Property ") then
+			if type(t.Name) == "string" then
+				at = at + 10;
+				local propertytype = nextkeyword();
+				at = at + string.len(t.Name) + 2;
+				local propertyname = nextkeyword();
+				local p = {};
+				p.Type = "Property";
+				p.Name = propertyname;
+				p.RawType = propertytype;
+				t[propertyname] = p;
+			end
+		end
+		at = at + 1;
+	end
+	return rbxapi;
+end
+function getproperties(object)
+	if typeof(object) ~= "Instance" then
+		error'Instance expected'
+	end
+	local rbxapi = celery_get_properties();
+	return rbxapi[object.ClassName];
+end
+function saveinstance(first)
+	local rbxapi = celery_get_properties();
+	local header = '<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">\n    <External>null</External>\n    <External>nil</External>\n';
+	local cacheduids = {};
+	local function generatesuid(instance)
+		for i = 1, #cacheduids do
+			if cacheduids[i].Instance == instance then
+				return cacheduids[i].SUID;
+			end
+		end
+		local suid = "RBX";
+		for i = 1, 32 do
+			suid = suid .. string.char(48 + math.random(0, 9));
+		end
+		table.insert(cacheduids, {
+			["Instance"] = instance,
+			["SUID"] = suid
+		});
+		return suid;
+	end
+	local function serialize(object, depth)
+		if (object.ClassName == "DataModel") then
+			local xml = "";
+			local scan = {
+				"Workspace",
+				"Lighting",
+				"Players",
+				"ReplicatedFirst",
+				"ReplicatedStorage",
+				"StarterGui",
+				"StarterPack",
+				"StarterPlayer"
+			};
+			for i = 1, #scan do
+				local service = game:GetService(scan[i]);
+				if service then
+					print("Indexing DataModel --> '" .. service.Name .. "'...");
+					pcall(function()
+						xml = xml .. serialize(service, depth)
+					end);
+				else
+					warn("DataModel --> '" .. service.Name .. "' not found!");
+				end
+			end
+			return xml;
+		end
+		if (object.Parent) then
+			if (object.Parent.ClassName == "DataModel") then
+				local folder = Instance.new("Folder");
+				folder.Name = object.Name;
+				for _, v in pairs(object:GetChildren()) do
+					pcall(function()
+						v.Archivable = true;
+						v:Clone().Parent = folder;
+					end);
+				end
+				object = folder;
+			end
+		end
+		local properties = rbxapi[object.ClassName];
+		local xml = string.rep(' ', depth * 4);
+		local suid = generatesuid(object);
+		xml = xml .. "<Item class=\"" .. object.ClassName .. "\" referent=\"" .. suid .. "\">\n";
+		depth = depth + 1;
+		xml = xml .. string.rep(' ', depth * 4);
+		xml = xml .. "<Properties>\n";
+		depth = depth + 1;
+		xml = xml .. string.rep(' ', depth * 4);
+		xml = xml .. "<BinaryString name=\"AttributesSerialize\"></BinaryString>\n";
+		xml = xml .. string.rep(' ', depth * 4);
+		for k, v in pairs(properties) do
+			local prop = nil;
+			local proptype = properties[k].RawType;
+			local rawproptype = proptype;
+			local propname = k;
+			pcall(function()
+				prop = object[propname];
+			end);
+			if not prop then
+				pcall(function()
+					propname = propname:sub(1, string.len(propname) - 1);
+					rawproptype = propname;
+					prop = object[propname];
+				end);
+			end
+			if prop and proptype then
+				if proptype == "BrickColor" then
+				elseif proptype == "Object" then
+					proptype = "Ref";
+					rawproptype = "Ref";
+				elseif propname == "Color" then
+					proptype = "Color3";
+					rawproptype = "Color3";
+				elseif rbxapi[proptype] then
+					if rbxapi[proptype].RawType == "EnumItem" then
+						proptype = "EnumItem";
+					end
+				end
+				xml = xml .. "<" .. rawproptype .. " name=\"" .. propname .. "\">";
+				if (proptype == "Vector2") then
+					xml = xml .. "<X>" .. tostring(prop.X) .. "</X><Y>" .. tostring(prop.Y) .. "</Y>";
+				elseif (proptype == "Vector3") then
+					xml = xml .. "<X>" .. tostring(prop.X) .. "</X><Y>" .. tostring(prop.Y) .. "</Y><Z>" .. tostring(prop.Z) .. "</Z>";
+				elseif (proptype == "Color3") then
+					xml = xml .. "<R>" .. tostring(prop.R) .. "</R><G>" .. tostring(prop.G) .. "</G><B>" .. tostring(prop.B) .. "</B>";
+				elseif (proptype == "Color3uint8") then
+					local rgbavalue = bit32.bor(bit32.bor(bit32.bor(bit32.lshift(255, 24), bit32.lshift(255 * prop.r, 16)), bit32.lshift(255 * prop.g, 8)), 255 * prop.b);
+					xml = xml .. tostring(rgbavalue);
+				elseif (proptype == "BrickColor") then
+					xml = xml .. tostring(prop.Number)
+				elseif (proptype == "Content") then
+					xml = xml .. "<url>" .. tostring(prop) .. "</url>";
+				elseif (proptype == "Ref") then
+					if prop == object then
+						xml = xml .. suid;
+					else
+						local refsuid = generatesuid(prop);
+						if refsuid ~= nil then
+							xml = xml .. refsuid;
+						end
+					end
+				elseif (proptype == "EnumItem") then
+					xml = xml .. tostring(prop.Value);
+				elseif (proptype == "CoordinateFrame") then
+					xml = xml .. "<X>" .. tostring(prop.X) .. "</X><Y>" .. tostring(prop.Y) .. "</Y><Z>" .. tostring(prop.Z) .. "</Z>";
+					xml = xml .. "<R00>1</R00>";
+					xml = xml .. "<R01>0</R01>";
+					xml = xml .. "<R02>0</R02>";
+					xml = xml .. "<R10>0</R10>";
+					xml = xml .. "<R11>1</R11>";
+					xml = xml .. "<R12>0</R12>";
+					xml = xml .. "<R20>0</R20>";
+					xml = xml .. "<R21>0</R21>";
+					xml = xml .. "<R22>1</R22>";
+				elseif (proptype == "Faces") then
+					xml = xml .. "<Bottom>" .. tostring(prop.Bottom) .. "</Bottom>";
+					xml = xml .. "<Top>" .. tostring(prop.Top) .. "</Top>";
+					xml = xml .. "<Left>" .. tostring(prop.Left) .. "</Left>";
+					xml = xml .. "<Right>" .. tostring(prop.Right) .. "</Right>";
+					xml = xml .. "<Back>" .. tostring(prop.Back) .. "</Back>";
+					xml = xml .. "<Front>" .. tostring(prop.Front) .. "</Front>";
+				else
+					xml = xml .. tostring(prop);
+				end
+				xml = xml .. "</" .. rawproptype .. ">\n";
+				xml = xml .. string.rep(' ', depth * 4);
+			end
+		end
+		xml = xml .. "<BinaryString name=\"Tags\"></BinaryString>\n";
+		depth = depth - 1;
+		xml = xml .. string.rep(' ', depth * 4);
+		xml = xml .. "</Properties>\n";
+		for _, v in ipairs(object:GetChildren()) do
+			pcall(function()
+				xml = xml .. serialize(v, depth)
+			end);
+		end
+		depth = depth - 1;
+		xml = xml .. string.rep(' ', depth * 4);
+		xml = xml .. "</Item>\n";
+		return xml;
+	end
+	local xml = serialize(first, 1);
+	xml = header .. xml .. '</roblox>';
+	return xml;
+end
+function saveplace()
+	return saveinstance(game);
+end
+savegame = saveplace;
+script = Instance.new("LocalScript");
+setidentity(7);
+spawn(function()
+	--the script is put here when you press execute
+end)
